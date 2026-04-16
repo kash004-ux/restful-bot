@@ -67,7 +67,7 @@ def claude(prompt):
     r = requests.post(
         "https://api.anthropic.com/v1/messages",
         headers={"x-api-key": ANTHROPIC_API_KEY, "anthropic-version": "2023-06-01", "content-type": "application/json"},
-        json={"model": "claude-3-5-sonnet-20240620", "max_tokens": 2000, "messages": [{"role": "user", "content": prompt}]}
+        json={"model": "claude-haiku-4-5-20251001", "max_tokens": 2000, "messages": [{"role": "user", "content": prompt}]}
     )
     r.raise_for_status()
     return r.json()["content"][0]["text"]
