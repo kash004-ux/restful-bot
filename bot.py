@@ -95,8 +95,15 @@ def image(prompt, path):
     r = requests.post(
         "https://cloud.leonardo.ai/api/rest/v1/generations",
         headers={"authorization": f"Bearer {LEONARDO_API_KEY}", "content-type": "application/json"},
-        json={"prompt": prompt, "negative_prompt": "text, watermark, faces, bright", "modelId": "6bef9f1b-29cb-40c7-b9df-32b51c1f67d3", "width": 1920, "height": 1080, "num_images": 1, "guidance_scale": 7, "num_inference_steps": 30, "public": False}
-    )
+                json={
+            "prompt": prompt,
+            "modelId": "6bef9f1b-29cb-40c7-b9df-32b51c1f67d3",
+            "width": 1024,
+            "height": 768,
+            "num_images": 1,
+            "public": False
+        }
+
     r.raise_for_status()
     gid = r.json()["sdGenerationJob"]["generationId"]
     print(f"Image generating...", flush=True)
