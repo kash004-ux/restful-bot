@@ -127,6 +127,60 @@ def make_story_video(img, audio, out):
     subprocess.run(["ffmpeg","-y","-loop","1","-i",str(img),"-i",str(audio),"-c:v","libx264","-tune","stillimage","-c:a","aac","-b:a","192k","-pix_fmt","yuv420p","-vf","scale=1920:1080","-movflags","+faststart","-shortest",str(out)], check=True)
     print(f"Story video done: {out}", flush=True)
 
+def make_short(audio_path, img_path, out_path):
+    print("Making Short...", flush=True)
+    subprocess.run([
+        "ffmpeg", "-y",
+        "-loop", "1", "-i", str(img_path),
+        "-i", str(audio_path),
+        "-c:v", "libx264", "-tune", "stillimage",
+        "-c:a", "aac", "-b:a", "192k",
+        "-pix_fmt", "yuv420p",
+        "-t", "58",
+        "-vf", "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,format=yuv420p",
+        "-movflags", "+faststart",
+        "-shortest",
+        str(out_path)
+    ], check=True)
+    print(f"Short done: {out_path}", flush=True)
+
+def upload_short(path, title, description, tags):
+    print(f"Uploading Short: {title}", flush=True)
+    creds = Credentials(
+        token=None, 
+        refresh_token=YOUTUBE_REFRESH_TOKEN, 
+        client_id=YOUTUBE_CLIENT_ID, 
+        client_secret=YOUTUBE_CLIENT_SECRET, 
+        token_uri="https://oauth2.googleapis.com/token"
+    )
+    yt = googleapiclient.discovery.build("youtube", "v3", credentials=creds)
+    body = {
+        "snippet": {
+            "title": title,
+            "description": description,
+            "tags": tags + ["shorts", "youtubeshorts"],
+            "categoryId": "22",
+        },
+        "status": {
+            "privacyStatus": "public",
+            "selfDeclaredMadeForKids": False,
+        }
+    }
+    media = googleapiclient.http.MediaFileUpload(
+        str(path), 
+        mimetype="video/mp4", 
+        resumable=True, 
+        chunksize=10*1024*1024
+    )
+    req = yt.videos().insert(part=",".join(body.keys()), body=body, media_body=media)
+    res = None
+    while res is None:
+        st, res = req.next_chunk()
+        if st:
+            print(f"Short upload: {int(st.progress()*100)}%", flush=True)
+    print(f"Short live: https://youtube.com/shorts/{res['id']}", flush=True)
+    return res["id"]
+
 def upload(path, title, desc, tags):
     print(f"Uploading: {title}", flush=True)
     creds = Credentials(token=None, refresh_token=YOUTUBE_REFRESH_TOKEN, client_id=YOUTUBE_CLIENT_ID, client_secret=YOUTUBE_CLIENT_SECRET, token_uri="https://oauth2.googleapis.com/token")
@@ -161,6 +215,9 @@ def run():
             vid = d / "final.mp4"
             make_video(img, audio, vid)
             upload(vid, meta["title"], meta["description"], meta["tags"])
+           short_path = d / "short.mp4"
+make_short(audio, img, short_path)
+upload_short(short_path, meta["title"][:85] + " #Shorts", meta["description"], meta["tags"]) 
         else:
             t = random.choice(STORIES)
             print(f"Theme: {t['label']}", flush=True)
@@ -173,6 +230,9 @@ def run():
             vid = d / "final.mp4"
             make_story_video(img, audio, vid)
             upload(vid, meta["title"], meta["description"], meta["tags"])
+           short_path = d / "short.mp4"
+make_short(audio, img, short_path)
+upload_short(short_path, meta["title"][:85] + " #Shorts", meta["description"], meta["tags"]) 
         for f in d.iterdir():
             f.unlink()
         print("All done!", flush=True)
