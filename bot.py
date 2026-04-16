@@ -117,7 +117,7 @@ def image(prompt, path):
             return
     raise Exception("Image timed out")
 
-def make_video(img, audio, out, hours=8):
+def make_video(img, audio, out, hours=0.2):
     print("Making video...", flush=True)
     subprocess.run(["ffmpeg","-y","-loop","1","-i",str(img),"-stream_loop","-1","-i",str(audio),"-c:v","libx264","-tune","stillimage","-c:a","aac","-b:a","192k","-pix_fmt","yuv420p","-t",str(hours*3600),"-vf","scale=1920:1080","-movflags","+faststart",str(out)], check=True)
     print(f"Video done: {out}", flush=True)
