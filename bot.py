@@ -41,22 +41,14 @@ STORIES = [
 ]
 
 VISUALS = {
-    "rain": "dark rainy night, raindrops on window, moody blue, cinematic 4k",
-    "ocean": "moonlit ocean at night, gentle waves, stars, peaceful",
-    "forest": "dark forest at night, moonlight, fireflies, misty 4k",
-    "fireplace": "cozy fireplace glowing orange, warm room, night",
-    "thunderstorm": "storm clouds, lightning, rain on window, cinematic",
-    "fan": "minimal dark room, soft moonlight, calm 4k",
-    "cafe": "cozy cafe at night, warm lights, rain outside",
-    "whitenoise": "abstract dark waves, flowing light, minimal 4k",
-    "space": "child sleeping, stars outside window, purple night sky",
-    "forest_story": "magical glowing forest, fairy lights, dreamlike",
-    "ocean_story": "underwater world, soft blue light, fish, coral",
-    "dragons": "friendly dragon sleeping under stars, moonlight",
-    "farm": "peaceful farm at night, stars, sleeping animals",
-    "princess": "magical castle at night, moonlight, fairytale",
-    "dinosaurs": "friendly dinosaurs in moonlit jungle, peaceful",
-    "clouds": "fluffy clouds at night, moon, child on cloud",
+        "space": "magical starry galaxy, glowing planets, soft purple nebula, dreamy cosmic landscape, no people",
+    "forest_story": "magical glowing forest at night, fairy lights, fireflies, enchanted trees, soft mist, no people",
+    "ocean_story": "magical underwater coral reef, glowing sea creatures, soft blue light, bubbles, no people",
+    "dragons": "cozy cave with glowing crystals, soft candlelight, dragon eggs, magical treasure, no people",
+    "farm": "peaceful moonlit farm, glowing barn, sleeping animals, stars, flowers, no people",
+    "princess": "magical glowing castle at night, floating lanterns, moonlight, enchanted garden, no people",
+    "dinosaurs": "lush moonlit jungle, glowing plants, ancient trees, fireflies, soft mist, no people",
+    "clouds": "dreamy cloudscape at sunset, glowing clouds, rainbow colours, floating islands, no people",
 }
 
 VOICES = {
