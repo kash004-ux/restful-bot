@@ -1,37 +1,26 @@
-import schedule
-import time
 import subprocess
 import sys
+import time
+import schedule
 from datetime import datetime
 
 def run_bot():
-    print(f"\n[{datetime.now()}] Starting daily video generation...")
+    print(f"[{datetime.now()}] Running bot...")
     try:
-        # Runs bot.py and waits for it to finish
-        result = subprocess.run(
-            [sys.executable, "bot.py"],
-            capture_output=False,
-            timeout=7200  # 2-hour timeout
-        )
-        if result.returncode == 0:
-            print(f"[{datetime.now()}] Video generated and uploaded successfully")
-        else:
-            print(f"[{datetime.now()}] Bot exited with code {result.returncode}")
-    except subprocess.TimeoutExpired:
-        print(f"[{datetime.now()}] Bot timed out after 2 hours")
+        # Runs bot.py and waits for completion
+        subprocess.run([sys.executable, "bot.py"], check=True)
+        print(f"[{datetime.now()}] Done!")
     except Exception as e:
         print(f"[{datetime.now()}] Error: {e}")
 
-# Schedule the task for 6:00 PM local server time
-schedule.every().day.at("18:00").do(run_bot)
+print("Scheduler started - running now then daily at 18:00")
 
-print("RestfulTalesTunes Scheduler started")
-print("Uploading 1 video daily at 6:00pm")
-
-# Run once immediately on startup to verify it works
+# Initial run to verify connection upon startup
 run_bot()
+
+# Set schedule for 6:00 PM
+schedule.every().day.at("18:00").do(run_bot)
 
 while True:
     schedule.run_pending()
     time.sleep(60)
-
