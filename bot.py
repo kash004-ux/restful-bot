@@ -103,7 +103,7 @@ def image(prompt, path):
             "num_images": 1,
             "public": False
         }
-
+    )
     r.raise_for_status()
     gid = r.json()["sdGenerationJob"]["generationId"]
     print(f"Image generating...", flush=True)
