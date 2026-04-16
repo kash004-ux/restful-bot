@@ -41,7 +41,15 @@ STORIES = [
 ]
 
 VISUALS = {
-        "space": "magical starry galaxy, glowing planets, soft purple nebula, dreamy cosmic landscape, no people",
+            "rain": "dark rainy night, raindrops on window, moody blue, cinematic 4k",
+    "ocean": "moonlit ocean at night, gentle waves, stars, peaceful",
+    "forest": "dark forest at night, moonlight, fireflies, misty 4k",
+    "fireplace": "cozy fireplace glowing orange, warm room, night",
+    "thunderstorm": "storm clouds, lightning, rain on window, cinematic",
+    "fan": "minimal dark room, soft moonlight, calm 4k",
+    "cafe": "cozy cafe at night, warm lights, rain outside",
+    "whitenoise": "abstract dark waves, flowing light, minimal 4k",
+    "space": "magical starry galaxy, glowing planets, soft purple nebula, dreamy cosmic landscape, no people",
     "forest_story": "magical glowing forest at night, fairy lights, fireflies, enchanted trees, soft mist, no people",
     "ocean_story": "magical underwater coral reef, glowing sea creatures, soft blue light, bubbles, no people",
     "dragons": "cozy cave with glowing crystals, soft candlelight, dragon eggs, magical treasure, no people",
