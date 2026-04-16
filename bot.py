@@ -215,9 +215,9 @@ def run():
             vid = d / "final.mp4"
             make_video(img, audio, vid)
             upload(vid, meta["title"], meta["description"], meta["tags"])
-           short_path = d / "short.mp4"
-           make_short(audio, img, short_path)
-           upload_short(short_path, meta["title"][:85] + " #Shorts", meta["description"], meta["tags"]) 
+            short_path = d / "short.mp4"
+            make_short(audio, img, short_path)
+            upload_short(short_path, meta["title"][:85] + " #Shorts", meta["description"], meta["tags"]) 
         else:
             t = random.choice(STORIES)
             print(f"Theme: {t['label']}", flush=True)
@@ -230,9 +230,9 @@ def run():
             vid = d / "final.mp4"
             make_story_video(img, audio, vid)
             upload(vid, meta["title"], meta["description"], meta["tags"])
-           short_path = d / "short.mp4"
-           make_short(audio, img, short_path)
-           upload_short(short_path, meta["title"][:85] + " #Shorts", meta["description"], meta["tags"]) 
+            short_path = d / "short.mp4"
+            make_short(audio, img, short_path)
+            upload_short(short_path, meta["title"][:85] + " #Shorts", meta["description"], meta["tags"]) 
         for f in d.iterdir():
             f.unlink()
         print("All done!", flush=True)
