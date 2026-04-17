@@ -81,15 +81,30 @@ def fetch_pexels_image(query, output_path):
 # ── FFmpeg Functions ──────────────────────────────────────────────────────────
 def mix_audio(audio_a, audio_b, output_path):
     print("  Mixing audio tracks...", flush=True)
+    duration = VIDEO_DURATION_HOURS * 3600
+    # Loop both tracks to full video length first, then mix simultaneously
+    loop_a = str(audio_a).replace(".mp3", "_loop.mp3")
+    loop_b = str(audio_b).replace(".mp3", "_loop.mp3")
+    
+    subprocess.run([
+        "ffmpeg", "-y", "-stream_loop", "-1", "-i", str(audio_a),
+        "-t", str(duration), "-c:a", "libmp3lame", "-q:a", "2", loop_a
+    ], check=True, capture_output=True)
+    
+    subprocess.run([
+        "ffmpeg", "-y", "-stream_loop", "-1", "-i", str(audio_b),
+        "-t", str(duration), "-c:a", "libmp3lame", "-q:a", "2", loop_b
+    ], check=True, capture_output=True)
+    
     subprocess.run([
         "ffmpeg", "-y",
-        "-i", str(audio_a),
-        "-i", str(audio_b),
-        "-filter_complex", "[0:a][1:a]amix=inputs=2:duration=longest:dropout_transition=2[aout]",
+        "-i", loop_a, "-i", loop_b,
+        "-filter_complex", "[0:a]volume=1.0[a1];[1:a]volume=0.6[a2];[a1][a2]amix=inputs=2:duration=first[aout]",
         "-map", "[aout]",
         "-c:a", "libmp3lame", "-q:a", "2",
         str(output_path)
     ], check=True, capture_output=True)
+    
     print(f"  Mixed audio saved: {output_path}", flush=True)
 
 def make_video(img, audio, out, hours=1):
